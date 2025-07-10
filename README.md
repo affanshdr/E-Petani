@@ -9,20 +9,6 @@ sample Warga ( Nanti bisa ditambah manual oleh Admin )
 - no Nik : 1234567891234567
 - no KK  : 1234567891234567
 
-**Anggota** :
-
-1. Affan Suhendar (2308107010003)
-
-2. Muhammad Aidil Fitrah (2308107010035)
-
-3. Zalvia Inasya Zulna (2308107010041)
-
-4. Raysha Tazkiya Rahim (2308107010057)
-
-5. Shania Rizka Anindia (2308107010067)
-
-
-
 ## Fitur Utama
 ✅ Pengajuan surat online (Domisili, Usaha, Belum Menikah, Tidak Mampu)  
 ✅ Tracking status pengajuan (Diajukan - Diproses - Selesai/Ditolak)  
