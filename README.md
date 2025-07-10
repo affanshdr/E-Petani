@@ -26,7 +26,7 @@ sample Warga ( Nanti bisa ditambah manual oleh Admin )
 
 1. **Clone repository**:
    ```bash
-   git clone https://github.com/affanshdr/SIMAK.git
+   git clone https://github.com/affanshdr/E-Petani.git
    cd simak
 2. **Install dependencies**:
    ```bash
