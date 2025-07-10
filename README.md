@@ -27,7 +27,7 @@ sample Warga ( Nanti bisa ditambah manual oleh Admin )
 1. **Clone repository**:
    ```bash
    git clone https://github.com/affanshdr/E-Petani.git
-   cd simak
+   cd E-Petani
 2. **Install dependencies**:
    ```bash
    npm install
