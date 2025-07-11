@@ -123,61 +123,46 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
   name: 'name',
-  email: 'email'
-};
-
-exports.Prisma.TemplateSuratScalarFieldEnum = {
-  id: 'id',
-  judul: 'judul',
-  terakhirDiubah: 'terakhirDiubah',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.PengajuanSuratScalarFieldEnum = {
-  id: 'id',
-  nama_lengkap: 'nama_lengkap',
-  no_nik: 'no_nik',
-  no_kk: 'no_kk',
-  alamat: 'alamat',
-  keterangan: 'keterangan',
-  jenis_surat: 'jenis_surat',
-  file_ktp: 'file_ktp',
-  file_kk: 'file_kk',
-  file_pengantar_rtrw: 'file_pengantar_rtrw',
-  file_surat_permohonan: 'file_surat_permohonan',
-  file_izin_usaha: 'file_izin_usaha',
-  file_pas_foto: 'file_pas_foto',
-  file_pernyataan_tm: 'file_pernyataan_tm',
-  file_rekening_listrik: 'file_rekening_listrik',
-  status: 'status',
-  no_pengajuan: 'no_pengajuan',
-  tanggal_pengajuan: 'tanggal_pengajuan',
-  tanggal_selesai: 'tanggal_selesai',
-  createdAt: 'createdAt'
-};
-
-exports.Prisma.WargaScalarFieldEnum = {
-  id: 'id',
-  nama_lengkap: 'nama_lengkap',
-  no_nik: 'no_nik',
-  no_kk: 'no_kk',
-  alamat: 'alamat',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.AdminScalarFieldEnum = {
-  id: 'id',
   email: 'email',
-  password: 'password'
+  password: 'password',
+  role: 'role',
+  location: 'location',
+  phone: 'phone',
+  ktpSiupUrl: 'ktpSiupUrl'
 };
 
-exports.Prisma.TestingScalarFieldEnum = {
+exports.Prisma.ProductScalarFieldEnum = {
   id: 'id',
-  nama: 'nama',
+  name: 'name',
+  description: 'description',
+  price: 'price',
+  stock: 'stock',
+  imageUrl: 'imageUrl',
+  suplierId: 'suplierId'
+};
+
+exports.Prisma.OrderScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
   status: 'status',
-  createdAt: 'createdAt'
+  totalAmount: 'totalAmount',
+  petaniId: 'petaniId'
+};
+
+exports.Prisma.OrderItemScalarFieldEnum = {
+  id: 'id',
+  quantity: 'quantity',
+  price: 'price',
+  orderId: 'orderId',
+  productId: 'productId'
+};
+
+exports.Prisma.ReviewScalarFieldEnum = {
+  id: 'id',
+  rating: 'rating',
+  comment: 'comment',
+  productId: 'productId',
+  userId: 'userId'
 };
 
 exports.Prisma.SortOrder = {
@@ -194,15 +179,17 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
-
+exports.Role = exports.$Enums.Role = {
+  PETANI: 'PETANI',
+  SUPLIER: 'SUPLIER'
+};
 
 exports.Prisma.ModelName = {
   User: 'User',
-  TemplateSurat: 'TemplateSurat',
-  PengajuanSurat: 'PengajuanSurat',
-  Warga: 'Warga',
-  Admin: 'Admin',
-  Testing: 'Testing'
+  Product: 'Product',
+  Order: 'Order',
+  OrderItem: 'OrderItem',
+  Review: 'Review'
 };
 
 /**
