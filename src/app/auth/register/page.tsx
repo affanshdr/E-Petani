@@ -39,8 +39,9 @@ const formSchema = z.object({
   name: z.string().min(3, { message: "Nama harus lebih dari 3 karakter." }),
   email: z.string().email({ message: "Format email tidak valid." }),
   password: z.string().min(6, { message: "Password minimal 6 karakter." }),
-  role: z.enum(["PETANI", "SUPLIER"], {
-    required_error: "Anda harus memilih peran.",
+  role: z.enum(["PETANI", "SUPLIER"] as const)
+    .refine((val) => !!val, {
+    message: "Anda harus memilih peran.",
   }),
 });
 
@@ -68,7 +69,7 @@ export default function RegisterPage() {
       if (result.error) {
         setError(result.error);
       } else {
-        setSuccess(result.success);
+        setSuccess(result.success ?? "Pendaftaran berhasil! Anda akan dialihkan ke halaman login.");
         // Redirect ke halaman login setelah 2 detik
         setTimeout(() => {
           router.push("/login");
@@ -94,7 +95,7 @@ export default function RegisterPage() {
               <FormField
                 control={form.control}
                 name="name"
-                render={({ field }) => (
+                render={({ field }: { field: any }) => (
                   <FormItem>
                     <FormLabel>Nama Lengkap / Usaha</FormLabel>
                     <FormControl>
@@ -111,7 +112,7 @@ export default function RegisterPage() {
               <FormField
                 control={form.control}
                 name="email"
-                render={({ field }) => (
+                render={({ field }: { field: any }) => (
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
@@ -129,7 +130,7 @@ export default function RegisterPage() {
               <FormField
                 control={form.control}
                 name="password"
-                render={({ field }) => (
+                render={({ field }: { field: any }) => (
                   <FormItem>
                     <FormLabel>Password</FormLabel>
                     <FormControl>
@@ -147,7 +148,7 @@ export default function RegisterPage() {
               <FormField
                 control={form.control}
                 name="role"
-                render={({ field }) => (
+                render={({ field }: { field: any }) => (
                   <FormItem>
                     <FormLabel>Daftar sebagai</FormLabel>
                     <Select
