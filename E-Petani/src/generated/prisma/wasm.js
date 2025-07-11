@@ -123,60 +123,76 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
   name: 'name',
-  email: 'email'
-};
-
-exports.Prisma.TemplateSuratScalarFieldEnum = {
-  id: 'id',
-  judul: 'judul',
-  terakhirDiubah: 'terakhirDiubah',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.PengajuanSuratScalarFieldEnum = {
-  id: 'id',
-  nama_lengkap: 'nama_lengkap',
-  no_nik: 'no_nik',
-  no_kk: 'no_kk',
-  alamat: 'alamat',
-  keterangan: 'keterangan',
-  jenis_surat: 'jenis_surat',
-  file_ktp: 'file_ktp',
-  file_kk: 'file_kk',
-  file_pengantar_rtrw: 'file_pengantar_rtrw',
-  file_surat_permohonan: 'file_surat_permohonan',
-  file_izin_usaha: 'file_izin_usaha',
-  file_pas_foto: 'file_pas_foto',
-  file_pernyataan_tm: 'file_pernyataan_tm',
-  file_rekening_listrik: 'file_rekening_listrik',
-  status: 'status',
-  no_pengajuan: 'no_pengajuan',
-  tanggal_pengajuan: 'tanggal_pengajuan',
-  tanggal_selesai: 'tanggal_selesai',
+  email: 'email',
+  password: 'password',
+  role: 'role',
   createdAt: 'createdAt'
 };
 
-exports.Prisma.WargaScalarFieldEnum = {
+exports.Prisma.ProfileScalarFieldEnum = {
   id: 'id',
-  nama_lengkap: 'nama_lengkap',
-  no_nik: 'no_nik',
-  no_kk: 'no_kk',
-  alamat: 'alamat',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  userId: 'userId',
+  photoUrl: 'photoUrl',
+  bio: 'bio',
+  follower: 'follower'
 };
 
-exports.Prisma.AdminScalarFieldEnum = {
+exports.Prisma.ProductScalarFieldEnum = {
   id: 'id',
-  email: 'email',
-  password: 'password'
+  name: 'name',
+  category: 'category',
+  price: 'price',
+  imageUrl: 'imageUrl',
+  sellerId: 'sellerId',
+  stock: 'stock',
+  createdAt: 'createdAt'
 };
 
-exports.Prisma.TestingScalarFieldEnum = {
+exports.Prisma.OrderScalarFieldEnum = {
   id: 'id',
-  nama: 'nama',
+  userId: 'userId',
   status: 'status',
+  totalPrice: 'totalPrice',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.OrderItemScalarFieldEnum = {
+  id: 'id',
+  orderId: 'orderId',
+  productId: 'productId',
+  quantity: 'quantity',
+  price: 'price'
+};
+
+exports.Prisma.ChatScalarFieldEnum = {
+  id: 'id',
+  senderId: 'senderId',
+  receiverId: 'receiverId',
+  message: 'message',
+  timestamp: 'timestamp'
+};
+
+exports.Prisma.ActivityScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  action: 'action',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.PostScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  description: 'description',
+  imageUrl: 'imageUrl',
+  likes: 'likes',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.CommentScalarFieldEnum = {
+  id: 'id',
+  postId: 'postId',
+  userId: 'userId',
+  content: 'content',
   createdAt: 'createdAt'
 };
 
@@ -194,15 +210,28 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
+exports.Role = exports.$Enums.Role = {
+  USER: 'USER',
+  ADMIN: 'ADMIN'
+};
 
+exports.OrderStatus = exports.$Enums.OrderStatus = {
+  PENDING: 'PENDING',
+  CONFIRMED: 'CONFIRMED',
+  DELIVERED: 'DELIVERED',
+  CANCELLED: 'CANCELLED'
+};
 
 exports.Prisma.ModelName = {
   User: 'User',
-  TemplateSurat: 'TemplateSurat',
-  PengajuanSurat: 'PengajuanSurat',
-  Warga: 'Warga',
-  Admin: 'Admin',
-  Testing: 'Testing'
+  Profile: 'Profile',
+  Product: 'Product',
+  Order: 'Order',
+  OrderItem: 'OrderItem',
+  Chat: 'Chat',
+  Activity: 'Activity',
+  Post: 'Post',
+  Comment: 'Comment'
 };
 
 /**
