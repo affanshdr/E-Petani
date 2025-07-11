@@ -1,17 +1,15 @@
-// app/api/auth/[...nextauth]/route.ts
-import NextAuth from "next-auth";
-import { PrismaAdapter } from "@auth/prisma-adapter";
+// src/app/api/auth/[...nextauth]/route.ts
+import NextAuth, { type AuthOptions } from "next-auth";
+// import { PrismaAdapter } from "@auth/prisma-adapter"; // Nonaktifkan sementara
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
-
 import { db } from "@/lib/db";
-import { AuthOptions } from "next-auth";
+import { User } from "@/generated/prisma";
 
 export const authOptions: AuthOptions = {
-  adapter: PrismaAdapter(db),
+  // adapter: PrismaAdapter(db), // Nonaktifkan adapter untuk diagnosis
   pages: {
-    // PERUBAHAN DI SINI
-    signIn: '/auth/login', 
+    signIn: '/auth/login',
   },
   providers: [
     CredentialsProvider({
@@ -21,6 +19,7 @@ export const authOptions: AuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
+        console.log("--- AUTHORIZE (Mode Diagnosis) ---");
         if (!credentials?.email || !credentials?.password) {
           return null;
         }
@@ -39,7 +38,14 @@ export const authOptions: AuthOptions = {
         );
 
         if (isPasswordCorrect) {
-          return user;
+          console.log("Authorize: Password benar. Mengembalikan user.");
+          // Mengembalikan hanya data yang dibutuhkan untuk sesi JWT
+          return {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            role: user.role,
+          };
         }
 
         return null;
@@ -51,19 +57,19 @@ export const authOptions: AuthOptions = {
   },
   callbacks: {
     async jwt({ token, user }) {
+      console.log("--- JWT CALLBACK (Mode Diagnosis) ---");
       if (user) {
+        // 'user' di sini berasal dari return value 'authorize'
         token.id = user.id;
-        // @ts-ignore
-        token.role = user.role;
+        token.role = (user as any).role;
       }
       return token;
     },
     async session({ session, token }) {
+      console.log("--- SESSION CALLBACK (Mode Diagnosis) ---");
       if (session.user) {
-        // @ts-ignore
-        session.user.id = token.id;
-        // @ts-ignore
-        session.user.role = token.role;
+        (session.user as any).id = token.id;
+        (session.user as any).role = token.role;
       }
       return session;
     },

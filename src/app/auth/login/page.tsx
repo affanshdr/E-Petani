@@ -131,7 +131,7 @@ export default function LoginPage() {
 
           <div className="mt-4 text-center text-sm">
             Belum punya akun?{" "}
-            <a href="/register" className="underline text-green-600">
+            <a href="/auth/register" className="underline text-green-600">
               Daftar di sini
             </a>
           </div>
