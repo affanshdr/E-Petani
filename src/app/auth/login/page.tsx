@@ -1,68 +1,51 @@
-// app/(auth)/login/page.tsx
+// src/app/auth/login/page.tsx
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState, useTransition, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
-// Import komponen UI yang sama
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
-// Skema validasi untuk login
 const formSchema = z.object({
   email: z.string().email({ message: "Format email tidak valid." }),
   password: z.string().min(1, { message: "Password tidak boleh kosong." }),
 });
 
 export default function LoginPage() {
-  const router = useRouter();
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl");
+  const errorFromUrl = searchParams.get("error");
+
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
 
+  useEffect(() => {
+    if (errorFromUrl === "CredentialsSignin") {
+      setError("Email atau password salah. Silakan coba lagi.");
+    }
+  }, [errorFromUrl]);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-    },
+    defaultValues: { email: "", password: "" },
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     setError(null);
-
-    startTransition(async () => {
-      const result = await signIn("credentials", {
-        redirect: false, // Kita handle redirect manual
+    startTransition(() => {
+      signIn("credentials", {
         email: values.email,
         password: values.password,
+        // PERUBAHAN DI SINI: Sesuaikan callbackUrl cadangan
+        callbackUrl: callbackUrl || "/main/dashboard/petani",
       });
-
-      if (result?.error) {
-        setError("Email atau password salah. Silakan coba lagi.");
-      } else {
-        // Redirect ke halaman utama setelah login berhasil
-        // Nanti kita bisa arahkan berdasarkan role
-        router.push("/dashboard/petani"); 
-      }
     });
   };
 
@@ -87,12 +70,7 @@ export default function LoginPage() {
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input
-                        type="email"
-                        placeholder="email@contoh.com"
-                        {...field}
-                        disabled={isPending}
-                      />
+                      <Input type="email" placeholder="email@contoh.com" {...field} disabled={isPending} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -105,30 +83,22 @@ export default function LoginPage() {
                   <FormItem>
                     <FormLabel>Password</FormLabel>
                     <FormControl>
-                      <Input
-                        type="password"
-                        placeholder="******"
-                        {...field}
-                        disabled={isPending}
-                      />
+                      <Input type="password" placeholder="******" {...field} disabled={isPending} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-
               {error && (
                 <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-md text-sm">
                   {error}
                 </div>
               )}
-
               <Button type="submit" className="w-full bg-green-600 hover:bg-green-700" disabled={isPending}>
                 {isPending ? "Memproses..." : "Login"}
               </Button>
             </form>
           </Form>
-
           <div className="mt-4 text-center text-sm">
             Belum punya akun?{" "}
             <a href="/auth/register" className="underline text-green-600">

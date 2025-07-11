@@ -161,6 +161,13 @@ exports.Prisma.VerificationTokenScalarFieldEnum = {
   expires: 'expires'
 };
 
+exports.Prisma.CartItemScalarFieldEnum = {
+  id: 'id',
+  quantity: 'quantity',
+  userId: 'userId',
+  productId: 'productId'
+};
+
 exports.Prisma.ProductScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -219,6 +226,7 @@ exports.Prisma.ModelName = {
   Account: 'Account',
   Session: 'Session',
   VerificationToken: 'VerificationToken',
+  CartItem: 'CartItem',
   Product: 'Product',
   Order: 'Order',
   OrderItem: 'OrderItem',

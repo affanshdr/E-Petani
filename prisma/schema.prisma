@@ -16,28 +16,25 @@ enum Role {
   SUPLIER
 }
 
-// MODEL USER YANG DIPERBARUI
 model User {
   id            String    @id @default(cuid())
-  name          String    // <-- DIUBAH MENJADI WAJIB (TIDAK ADA LAGI TANDA TANYA)
+  name          String
   email         String?   @unique
   emailVerified DateTime?
   image         String?
-  password      String?   // Password tetap ada untuk login credentials
+  password      String?
   role          Role      @default(PETANI)
   location      String?
   phone         String?
   ktpSiupUrl    String?
 
-  // Relasi yang dibutuhkan oleh NextAuth dan aplikasi Anda
   accounts      Account[]
   sessions      Session[]
-  products      Product[] // Jika role-nya SUPLIER
-  orders        Order[]   // Jika role-nya PETANI
+  products      Product[]
+  orders        Order[]
   reviews       Review[]
+  cartItems     CartItem[] // Tambahkan relasi ke CartItem
 }
-
-// --- MODEL-MODEL BARU YANG DIBUTUHKAN OLEH NEXTAUTH ---
 
 model Account {
   id                String  @id @default(cuid())
@@ -52,9 +49,7 @@ model Account {
   scope             String?
   id_token          String? @db.Text
   session_state     String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   @@unique([provider, providerAccountId])
 }
 
@@ -70,11 +65,20 @@ model VerificationToken {
   identifier String
   token      String   @unique
   expires    DateTime
-
   @@unique([identifier, token])
 }
 
-// --- MODEL APLIKASI ANDA (TETAP SAMA) ---
+// MODEL BARU UNTUK KERANJANG BELANJA
+model CartItem {
+  id        String  @id @default(cuid())
+  quantity  Int
+  userId    String
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, productId]) // Pastikan setiap produk hanya ada satu kali per keranjang user
+}
 
 model Product {
   id          String      @id @default(cuid())
@@ -87,6 +91,7 @@ model Product {
   suplierId   String
   reviews     Review[]
   orderItems  OrderItem[]
+  cartItems   CartItem[] // Tambahkan relasi ke CartItem
 }
 
 model Order {

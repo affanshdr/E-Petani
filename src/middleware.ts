@@ -7,9 +7,7 @@ export async function middleware(req: NextRequest) {
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
   const { pathname } = req.nextUrl;
 
-  // PERUBAHAN DI SINI: Sesuaikan dengan path yang benar
   const publicPaths = ["/landing", "/auth/login", "/auth/register"];
-
   const isPublicPath = publicPaths.some((path) => pathname.startsWith(path));
   const isRootPath = pathname === '/';
 
@@ -20,13 +18,13 @@ export async function middleware(req: NextRequest) {
   if (token) {
     if (isPublicPath) {
       const role = token.role as string;
-      const dashboardUrl = role === 'SUPLIER' ? '/dashboard/suplier' : '/dashboard/petani';
+      // PERUBAHAN DI SINI: Tambahkan '/main' di depan URL dashboard
+      const dashboardUrl = role === 'SUPLIER' ? '/main/dashboard/suplier' : '/main/dashboard/petani';
       return NextResponse.redirect(new URL(dashboardUrl, req.url));
     }
   } 
   else {
     if (!isPublicPath) {
-      // PERUBAHAN DI SINI: Arahkan ke halaman login yang benar
       return NextResponse.redirect(new URL('/auth/login', req.url));
     }
   }
